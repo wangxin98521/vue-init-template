@@ -1,7 +1,12 @@
 <template>
   <div class="search">
     <div class="send">
-      <input id="searchInput" type="text" placeholder="请输入关键字" v-model="searchVal" />
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="请输入关键字"
+        v-model="searchVal"
+      />
       <button class="btn" @click="search">搜索</button>
     </div>
     <div class="searchContent">
@@ -10,17 +15,17 @@
         <i @click="clearVal($event)">X</i>
       </div>
     </div>
-    <div>111s</div>
   </div>
 </template>
 
 <script>
+import { setLocalStorage, getLocalStorage } from "@/assets/TS/tools";
 export default {
   data() {
     // 数据
     return {
       searchVal: "",
-      searchVals: [{ val: "小猪" }, { val: "小猪1" }]
+      searchVals: []
     };
   },
   // 子组件接收父组件值
@@ -33,18 +38,29 @@ export default {
   computed: {},
   // 自定义方法
   methods: {
+    // 获取本地存储中搜索历史记录并赋值给 searchVals
+    getSearchVals() {
+      if (
+        getLocalStorage("searchVals") &&
+        getLocalStorage("searchVals").length
+      ) {
+        this.searchVals = getLocalStorage("searchVals");
+      }
+    },
     // 点击搜索后，判断历史记录是否有相同的值，有则替换 无则添加
     search: function() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const that = this;
-      console.log(this.searchVal);
       // 通过过滤器选中元素并删除
-      this.searchVals.filter(function(item, index) {
-        if (item.val == that.searchVal) {
-          that.searchVals.splice(index, 1);
-          return;
-        }
-      });
+      if (this.searchVals && !this.searchVals.length) {
+        this.searchVals.filter(function(item, index) {
+          if (item.val == that.searchVal) {
+            that.searchVals.splice(index, 1);
+            return;
+          }
+        });
+      }
+      console.log(this.searchVals);
       this.searchVals.unshift({ val: this.searchVal });
     },
     // 点击历史记录 添加到搜索输入框
@@ -67,12 +83,14 @@ export default {
         }
       });
     }
-  }
+  },
 
   // 实例初始化后
   // beforeCreate() {},
   // 实例创建完成
-  // created() {},
+  created() {
+    this.getSearchVals();
+  },
   // 挂载之前
   // beforeMount() {},
   // 挂载完成 ---> 可以执行自定义方法
@@ -82,12 +100,14 @@ export default {
   // 数据更新完成
   // updated() {},
   // 组件销毁前
-  // beforeDestroy() {},
+  beforeDestroy() {
+    setLocalStorage("searchVals", this.searchVals);
+  }
   // 组件销毁后
   // destroyed() {}
 };
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .search {
   .send {
     input {
