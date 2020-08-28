@@ -51,17 +51,23 @@ export default {
     search: function() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const that = this;
-      // 通过过滤器选中元素并删除
-      if (this.searchVals && !this.searchVals.length) {
-        this.searchVals.filter(function(item, index) {
-          if (item.val == that.searchVal) {
-            that.searchVals.splice(index, 1);
-            return;
-          }
+      if (this.searchVal.trim() == "") {
+        this.$toast({
+          message: "输入框不能为空"
         });
+      } else {
+        // 通过过滤器选中元素并删除
+        if (this.searchVals && !this.searchVals.length) {
+          this.searchVals.filter(function(item, index) {
+            if (item.val == that.searchVal) {
+              that.searchVals.splice(index, 1);
+              return;
+            }
+          });
+        }
+        console.log(this.searchVals);
+        this.searchVals.unshift({ val: this.searchVal });
       }
-      console.log(this.searchVals);
-      this.searchVals.unshift({ val: this.searchVal });
     },
     // 点击历史记录 添加到搜索输入框
     getVal(e) {
@@ -110,8 +116,25 @@ export default {
 <style lang="less" scoped>
 .search {
   .send {
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
     input {
       padding: 0 10px;
+      width: 88%;
+      height: 24px;
+      border-radius: 8px 0 0 8px;
+      border-right: none;
+    }
+    input:focus {
+      border-color: aqua;
+    }
+    button {
+      width: 12%;
+      height: 24px;
+      position: absolute;
+      background-color: rgba(45, 54, 184, 0.699);
+      border-radius: 0 8px 8px 0;
     }
   }
 
@@ -121,6 +144,7 @@ export default {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    margin-top: 8px;
     div {
       display: inline-block;
       font-size: 6px;

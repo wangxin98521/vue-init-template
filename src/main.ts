@@ -1,8 +1,14 @@
+/*
+ * @Author: 苏年璟
+ * @Date: 2020-08-12 16:09:53
+ * @LastEditTime: 2020-08-27 17:14:09
+ */
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./vant";
+import "vant/lib/index.css";
 import "@/assets/CSS/globalVariableStyle.scss";
 import "@/assets/CSS/clearDefaultStyle.scss";
 

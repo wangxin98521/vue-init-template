@@ -1,7 +1,7 @@
 /*
  * @Author: 苏年璟
  * @Date: 2020-08-24 09:38:37
- * @LastEditTime: 2020-08-24 15:34:06
+ * @LastEditTime: 2020-08-27 16:22:43
  */
 /**
  * @name: 本地存储section
@@ -23,4 +23,8 @@ export function setLocalStorage(sectionName: string, sectionData: any) {
  */
 export function getLocalStorage(sectionName: string) {
   return JSON.parse(localStorage.getItem(sectionName));
+}
+
+export function clearSpace(val: string) {
+  return val.trim();
 }
