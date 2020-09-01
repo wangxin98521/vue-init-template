@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <!-- 导航栏 ===> 返回，分享，关注等 -->
+    <navigationBar></navigationBar>
     <router-view></router-view>
     <van-tabbar v-model="active">
       <van-tabbar-item
@@ -8,7 +10,9 @@
         :to="item.path"
         :placeholder="true"
       >
-        <span class="badge" v-if="item.badge > 0 ? true : false">{{ item.badge }}</span>
+        <span class="badge" v-if="item.badge > 0 ? true : false">{{
+          item.badge
+        }}</span>
         <img
           slot="icon"
           slot-scope="props"
@@ -21,6 +25,7 @@
 </template>
 
 <script>
+import navigationBar from "@/components/public/navigationBar";
 export default {
   name: "Home",
   data() {
@@ -65,19 +70,24 @@ export default {
     //监听路由变化
     $route(to) {
       this.tabbarActive(to.meta.parentPage);
-      // console.log(to);
     }
   },
   methods: {
     // 判断选择哪一个 tabbar
     tabbarActive(parentPage) {
-      const index = this.pages.map(item => item.parentPage).indexOf(parentPage);
+      // eslint-disable-next-line prettier/prettier
+      const index = this.pages
+        .map((item) => item.parentPage)
+        .indexOf(parentPage);
       if (index != -1) {
         this.active = index;
       }
     }
   },
-  components: {}
+  // 组件注册
+  components: {
+    navigationBar
+  }
 };
 </script>
 <style lang="scss" scope>

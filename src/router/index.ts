@@ -1,5 +1,11 @@
+/*
+ * @Author: 苏年璟
+ * @Date: 2020-08-12 16:09:53
+ * @LastEditTime: 2020-09-01 09:05:25
+ */
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
+import store from "@/store/index";
 
 const Login = () => import("@/views/Login/Login.vue"); // 登录
 const Home = () => import("@/views/Home.vue"); // 带有tabbar的控制台
@@ -52,10 +58,10 @@ const routes: Array<RouteConfig> = [
         name: "Mine",
         component: Mine,
         meta: { keepAlive: true, parentPage: "Mine" }
-      }
+      },
+      { path: "/h5/home/test", name: "Test", component: Test }
     ]
-  },
-  { path: "/h5/home/test", name: "Test", component: Test }
+  }
 ];
 
 const router = new VueRouter({
@@ -72,8 +78,19 @@ const Title: any = {
 };
 
 router.beforeEach((to, from, next) => {
+  // console.log(to.path);
   if (to.name) {
     document.title = Title[to.name]; // 给页面添加标题
+  }
+  if (
+    to.path == "/h5" ||
+    to.path == "/h5/index" ||
+    to.path == "/h5/about" ||
+    to.path == "/h5/mine"
+  ) {
+    store.commit("setNavigationBar", true);
+  } else {
+    store.commit("setNavigationBar", false);
   }
   next();
   // let token = localStorage.getItem("token");

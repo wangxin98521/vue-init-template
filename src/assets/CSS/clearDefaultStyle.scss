@@ -40,3 +40,17 @@ input {
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+
+/* 清除浮动 */
+.clearfix::after {
+  display: block;
+  /*给伪元素赋值*/
+  content: "";
+  height: 0;
+  visibility: hidden;
+  /* 清理浮动 */
+  clear: both;
+}
+.clearfix {
+  zoom: 1;
+}
